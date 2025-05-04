@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { SongModule } from './song/song.module';
+import { PlaylistModule } from './playlist/playlist.module'; // Add this import
 
 @Module({
   imports: [
@@ -18,9 +19,9 @@ import { SongModule } from './song/song.module';
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: false, // set false untuk production
+        synchronize: false,
         ssl: {
-          rejectUnauthorized: false, // diperlukan untuk koneksi ke Neon
+          rejectUnauthorized: false,
         },
       }),
       inject: [ConfigService],
@@ -28,6 +29,7 @@ import { SongModule } from './song/song.module';
     AuthModule,
     UserModule,
     SongModule,
+    PlaylistModule,
   ],
 })
 export class AppModule {}

@@ -27,6 +27,13 @@ export class SongService {
     return song;
   }
 
+  async findByMood(mood: string): Promise<Song[]> {
+    return this.songRepository.find({
+      where: { mood },
+      relations: ['user']
+    });
+  }
+
   async create(createSongDto: CreateSongDto, user: User): Promise<Song> {
     const song = this.songRepository.create({
       ...createSongDto,

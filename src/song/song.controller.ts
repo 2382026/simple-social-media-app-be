@@ -18,6 +18,11 @@ export class SongController {
     return this.songService.findOne(+id);
   }
 
+  @Get('mood/:mood')
+  findByMood(@Param('mood') mood: string) {
+    return this.songService.findByMood(mood);
+  }
+
   @Post()
   create(@Body() createSongDto: CreateSongDto, @Request() req) {
     return this.songService.create(createSongDto, req.user);

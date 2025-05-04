@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
-import { RegisterDTO } from './dto/register.dto';
+import { RegisterDto } from './dto/register.dto';  // Changed from RegisterDTO to RegisterDto
 import * as bcrypt from 'bcrypt';
 import { JwtPayloadDto } from './dto/jwt.payload.dto';
 
@@ -33,7 +33,7 @@ export class AuthService {
     };
   }
 
-  async register(registerDto: RegisterDTO) {
+  async register(registerDto: RegisterDto) {  // Changed from RegisterDTO to RegisterDto
     const existedUser: User | null =
       await this.userService.findByEmailOrUsername(
         registerDto.email,
