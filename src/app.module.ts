@@ -1,46 +1,33 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthGuard } from './auth/auth.guard';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { PostModule } from './post/post.module';
+import { SongModule } from './song/song.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get<string>('POSTGRES_HOST'),
-        port: configService.get<string>('POSTGRES_PORT')
-          ? configService.get<number>('POSTGRES_PORT')
-          : 5432,
-        password: configService.get<string>('POSTGRES_PASSWORD'),
-        username: configService.get<string>('POSTGRES_USER'),
-        database: configService.get<string>('POSTGRES_DATABASE'),
-        migrations: ['dist/migrations/*.js'],
+        host: configService.get('POSTGRES_HOST'),
+        port: configService.get('POSTGRES_PORT'),
+        username: configService.get('POSTGRES_USER'),
+        password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        autoLoadEntities: true,
-        ssl: true,
+        synchronize: false, // set false untuk production
+        ssl: {
+          rejectUnauthorized: false, // diperlukan untuk koneksi ke Neon
+        },
       }),
+      inject: [ConfigService],
     }),
     AuthModule,
     UserModule,
-    PostModule
-  ],
-  controllers: [AppController],
-  providers: [
-    ConfigService,
-    JwtService,
-    { provide: APP_GUARD, useClass: AuthGuard },
-    AppService,
+    SongModule,
   ],
 })
 export class AppModule {}

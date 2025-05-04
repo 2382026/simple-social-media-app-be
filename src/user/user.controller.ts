@@ -6,7 +6,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
+import { JwtPayloadDto } from '../auth/dto/jwt.payload.dto';  // Updated import path
 import { User } from './user.entity';
 import { ProfileDTO } from './profile.dto';
 

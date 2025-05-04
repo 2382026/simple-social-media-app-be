@@ -9,7 +9,7 @@ import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { RegisterDTO } from './dto/register.dto';
 import * as bcrypt from 'bcrypt';
-import { JwtPayloadDto } from './dto/jwt-payload.dto';
+import { JwtPayloadDto } from './dto/jwt.payload.dto';
 
 @Injectable()
 export class AuthService {
